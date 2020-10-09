@@ -36,7 +36,7 @@ export function createContext<Present, Actions>(
   initialState: Present
 ): {
   UndoRedoProvider: ComponentType<UndoRedoProviderProps>;
-  usePresentState: () => [Present, Dispatch<Actions>];
+  usePresent: () => [Present, Dispatch<Actions>];
   useUndoRedo: () => [undo: Undo, redo: Redo];
 } {
   const initialUndoRedoState = {
@@ -64,7 +64,7 @@ export function createContext<Present, Actions>(
     );
   }
 
-  function usePresentState(): [state: Present, dispatch: Dispatch<Actions>] {
+  function usePresent(): [state: Present, dispatch: Dispatch<Actions>] {
     const [state, dispatch] = useContext(Context);
 
     return [state.present, dispatch];
@@ -79,5 +79,5 @@ export function createContext<Present, Actions>(
     ];
   }
 
-  return { UndoRedoProvider, usePresentState, useUndoRedo };
+  return { UndoRedoProvider, usePresent, useUndoRedo };
 }

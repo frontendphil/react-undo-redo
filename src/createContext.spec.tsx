@@ -7,12 +7,9 @@ import { countReducer, increment } from "./test";
 
 describe("createContext", () => {
   it("should provide access to the present state.", () => {
-    const { UndoRedoProvider, usePresentState } = createContext(
-      countReducer,
-      0
-    );
+    const { UndoRedoProvider, usePresent } = createContext(countReducer, 0);
     const Component = () => {
-      const [state] = usePresentState();
+      const [state] = usePresent();
 
       return <div>{state}</div>;
     };
@@ -27,13 +24,13 @@ describe("createContext", () => {
   });
 
   it("should be possible to undo an update.", () => {
-    const { UndoRedoProvider, usePresentState, useUndoRedo } = createContext(
+    const { UndoRedoProvider, usePresent, useUndoRedo } = createContext(
       countReducer,
       0
     );
 
     const Component = () => {
-      const [state, dispatch] = usePresentState();
+      const [state, dispatch] = usePresent();
       const [undo] = useUndoRedo();
 
       return (
@@ -63,13 +60,13 @@ describe("createContext", () => {
   });
 
   it("should be possible to redo an update.", () => {
-    const { UndoRedoProvider, usePresentState, useUndoRedo } = createContext(
+    const { UndoRedoProvider, usePresent, useUndoRedo } = createContext(
       countReducer,
       0
     );
 
     const Component = () => {
-      const [state, dispatch] = usePresentState();
+      const [state, dispatch] = usePresent();
       const [undo, redo] = useUndoRedo();
 
       return (
