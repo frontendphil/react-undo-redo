@@ -15,10 +15,7 @@ type DecrementAction = {
 
 type CountActions = IncrementAction | DecrementAction;
 
-export const countReducer = (
-  state: void | number,
-  action: CountActions
-): number => {
+export const countReducer = (state: number, action: CountActions): number => {
   invariant(state != null, "Count reducer needs an initial state");
 
   switch (action.type) {
