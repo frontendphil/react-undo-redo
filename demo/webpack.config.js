@@ -7,7 +7,7 @@ module.exports = {
   mode: "development",
   entry: [path.resolve(__dirname, "demo.tsx")],
   output: {
-    path: path.resolve(__dirname, "build"),
+    path: path.resolve(__dirname, "../docs"),
     filename: "[name].[chunkhash].js",
     chunkFilename: "[name].[chunkhash].js",
   },
@@ -16,7 +16,7 @@ module.exports = {
       alwaysWriteToDisk: true,
       minify: true,
       template: path.resolve(__dirname, "demo.html"),
-      filename: path.resolve(__dirname, "build/index.html"),
+      filename: path.resolve(__dirname, "../docs/index.html"),
     }),
     new HTMLWebpackHarddiskPlugin(),
   ],
