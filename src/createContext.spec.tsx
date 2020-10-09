@@ -1,9 +1,9 @@
 import React from "react";
 
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 
 import { createContext } from "./createContext";
-import { countReducer } from "./test";
+import { countReducer, increment } from "./test";
 
 describe("createContext", () => {
   it("should provide access to the present state.", () => {
@@ -12,7 +12,7 @@ describe("createContext", () => {
       0
     );
     const Component = () => {
-      const state = usePresentState();
+      const [state] = usePresentState();
 
       return <div>{state}</div>;
     };
@@ -26,6 +26,40 @@ describe("createContext", () => {
     expect(queryByText("0")).toBeInTheDocument();
   });
 
-  it.todo("should be possible to undo an update.");
+  it("should be possible to undo an update.", () => {
+    const { UndoRedoProvider, usePresentState, useUndo } = createContext(
+      countReducer,
+      0
+    );
+
+    const Component = () => {
+      const [state, dispatch] = usePresentState();
+      const undo = useUndo();
+
+      return (
+        <div>
+          {state}
+
+          <button onClick={() => dispatch(increment())}>Increment</button>
+
+          <button onClick={() => undo()}>Undo</button>
+        </div>
+      );
+    };
+
+    const { queryByText, getByText } = render(
+      <UndoRedoProvider>
+        <Component />
+      </UndoRedoProvider>
+    );
+
+    fireEvent.click(getByText("Increment"));
+
+    expect(queryByText("1")).toBeInTheDocument();
+
+    fireEvent.click(getByText("Undo"));
+
+    expect(queryByText("0")).toBeInTheDocument();
+  });
   it.todo("should be possible to redo an update.");
 });
