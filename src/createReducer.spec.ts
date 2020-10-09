@@ -1,0 +1,127 @@
+import invariant from "tiny-invariant";
+
+import { createReducer, redo, undo } from "./createReducer";
+
+describe("create reducer", () => {
+  describe("init", () => {
+    const presentReducer = () => null;
+    const initAction = { type: "@@INIT" };
+
+    it("should initialize the state with an empty past.", () => {
+      const reducer = createReducer(presentReducer);
+      const state = reducer(undefined, initAction);
+
+      expect(state).toHaveProperty("past", []);
+    });
+
+    it("should initialize the state with an empty future.", () => {
+      const reducer = createReducer(presentReducer);
+      const state = reducer(undefined, initAction);
+
+      expect(state).toHaveProperty("future", []);
+    });
+
+    it("should initialize the present state using the present reducer.", () => {
+      const initialState = {};
+      const presentReducer = () => initialState;
+
+      const reducer = createReducer(presentReducer);
+      const state = reducer(undefined, initAction);
+
+      expect(state).toHaveProperty("present", initialState);
+    });
+
+    it("should be possible to provide an initial state.", () => {
+      const initialState = {};
+      const presentReducer = (initialState: any) => initialState;
+
+      const reducer = createReducer(presentReducer, initialState);
+      const state = reducer(undefined, initAction);
+
+      expect(state).toHaveProperty("present", initialState);
+    });
+  });
+
+  describe("ready state", () => {
+    enum CountActionTypes {
+      INCREMENT = "@@count/increment",
+      DECREMENT = "@@count/decrement",
+    }
+
+    type IncrementAction = {
+      type: CountActionTypes.INCREMENT;
+    };
+
+    type DecrementAction = {
+      type: CountActionTypes.DECREMENT;
+    };
+
+    type CountActions = IncrementAction | DecrementAction;
+
+    const countReducer = (
+      state: void | number,
+      action: CountActions
+    ): number => {
+      invariant(state != null, "Count reducer needs an initial state");
+
+      switch (action.type) {
+        case CountActionTypes.INCREMENT:
+          return state + 1;
+        case CountActionTypes.DECREMENT:
+          return state - 1;
+        default:
+          invariant(false, "Count reducer received an unknown action.");
+      }
+    };
+
+    const increment = (): IncrementAction =>
+      ({ type: CountActionTypes.INCREMENT } as const);
+    const decrement = (): DecrementAction =>
+      ({ type: CountActionTypes.DECREMENT } as const);
+
+    it("should move the current present into the past when an action is processed.", () => {
+      const reducer = createReducer(countReducer);
+      const initialState = {
+        past: [],
+        present: 0,
+        future: [],
+      };
+
+      const updatedState = reducer(initialState, increment());
+
+      expect(updatedState).toHaveProperty("past", [0]);
+      expect(updatedState).toHaveProperty("present", 1);
+    });
+
+    it("should be possible to undo an action.", () => {
+      const reducer = createReducer(countReducer);
+      const initialState = {
+        past: [],
+        present: 0,
+        future: [],
+      };
+
+      const updatedState = reducer(initialState, increment());
+      const revertedState = reducer(updatedState, undo());
+
+      expect(revertedState).toHaveProperty("past", []);
+      expect(revertedState).toHaveProperty("present", initialState.present);
+    });
+
+    it("should be possible to redo an action.", () => {
+      const reducer = createReducer(countReducer);
+      const initialState = {
+        past: [],
+        present: 0,
+        future: [],
+      };
+
+      const updatedState = reducer(initialState, increment());
+      const revertedState = reducer(updatedState, undo());
+      const restoredState = reducer(revertedState, redo());
+
+      expect(restoredState).toHaveProperty("past", [initialState.present]);
+      expect(restoredState).toHaveProperty("present", updatedState.present);
+    });
+  });
+});
