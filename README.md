@@ -36,11 +36,35 @@ const { UndoRedoProvider, usePresent, useUndoRedo } = createUndoRedo(reducer);
 | -------------- | -------- | --------------------------------------------------------------------------------------------------------- |
 | `initialState` | ✔️       | The initial state that your reducer needs. This does **not** need any notion of past, present, or future. |
 
+```js
+function Component() {
+  return (
+    <UndoRedoProvider initialState={0}>
+      <Counter />
+    </UndoRedoProvider>
+  );
+}
+```
+
 ### `usePresent` => `[state, dispatch]`
 
 The return value of this hook mimics the [`useReducer`](https://reactjs.org/docs/hooks-reference.html#usereducer) hook.
 You get access to the current present state.
 Use the `dispatch` method to dispatch any of your actions.
+
+```js
+function Component() {
+  const [count, dispatch] = usePresent();
+
+  return (
+    <>
+      <div>count: {count}</div>
+
+      <button onClick={() => dispatch({ type: "increment" })}>Add 1</button>
+    </>
+  );
+}
+```
 
 ### `useUndoRedo` => `[undo, redo]`
 
