@@ -61,5 +61,42 @@ describe("createContext", () => {
 
     expect(queryByText("0")).toBeInTheDocument();
   });
-  it.todo("should be possible to redo an update.");
+
+  it("should be possible to redo an update.", () => {
+    const {
+      UndoRedoProvider,
+      usePresentState,
+      useUndo,
+      useRedo,
+    } = createContext(countReducer, 0);
+
+    const Component = () => {
+      const [state, dispatch] = usePresentState();
+      const undo = useUndo();
+      const redo = useRedo();
+
+      return (
+        <div>
+          {state}
+
+          <button onClick={() => dispatch(increment())}>Increment</button>
+
+          <button onClick={() => undo()}>Undo</button>
+          <button onClick={() => redo()}>Redo</button>
+        </div>
+      );
+    };
+
+    const { queryByText, getByText } = render(
+      <UndoRedoProvider>
+        <Component />
+      </UndoRedoProvider>
+    );
+
+    fireEvent.click(getByText("Increment"));
+    fireEvent.click(getByText("Undo"));
+    fireEvent.click(getByText("Redo"));
+
+    expect(queryByText("1")).toBeInTheDocument();
+  });
 });

@@ -13,6 +13,7 @@ import {
   UndoRedoReducer,
   UndoRedoState,
   createReducer,
+  redo,
   undo,
 } from "./createReducer";
 
@@ -28,6 +29,7 @@ type UndoRedoProviderProps = {
 };
 
 type Undo = () => void;
+type Redo = () => void;
 
 export function createContext<Present, Actions>(
   reducer: PresentReducer<Present, Actions>,
@@ -36,6 +38,7 @@ export function createContext<Present, Actions>(
   UndoRedoProvider: ComponentType<UndoRedoProviderProps>;
   usePresentState: () => [Present, Dispatch<Actions>];
   useUndo: () => Undo;
+  useRedo: () => Redo;
 } {
   const initialUndoRedoState = {
     past: [],
@@ -74,5 +77,11 @@ export function createContext<Present, Actions>(
     return useCallback(() => dispatch(undo()), [dispatch]);
   }
 
-  return { UndoRedoProvider, usePresentState, useUndo };
+  function useRedo(): Redo {
+    const [, dispatch] = useContext(Context);
+
+    return useCallback(() => dispatch(redo()), [dispatch]);
+  }
+
+  return { UndoRedoProvider, usePresentState, useUndo, useRedo };
 }
