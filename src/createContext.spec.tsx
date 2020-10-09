@@ -93,4 +93,81 @@ describe("createContext", () => {
 
     expect(queryByText("1")).toBeInTheDocument();
   });
+
+  it("should be possible to access information whether undo is possible.", () => {
+    const { UndoRedoProvider, usePresent, useUndoRedo } = createContext(
+      countReducer,
+      0
+    );
+
+    const Component = () => {
+      const [state, dispatch] = usePresent();
+      const [undo] = useUndoRedo();
+
+      return (
+        <div>
+          {state}
+
+          <button onClick={() => dispatch(increment())}>Increment</button>
+
+          <button disabled={!undo.isPossible} onClick={() => undo()}>
+            Undo
+          </button>
+        </div>
+      );
+    };
+
+    const { getByText } = render(
+      <UndoRedoProvider>
+        <Component />
+      </UndoRedoProvider>
+    );
+
+    expect(getByText("Undo")).toBeDisabled();
+
+    fireEvent.click(getByText("Increment"));
+
+    expect(getByText("Undo")).not.toBeDisabled();
+  });
+
+  it("should be possible to access information whether redo is possible.", () => {
+    const { UndoRedoProvider, usePresent, useUndoRedo } = createContext(
+      countReducer,
+      0
+    );
+
+    const Component = () => {
+      const [state, dispatch] = usePresent();
+      const [undo, redo] = useUndoRedo();
+
+      return (
+        <div>
+          {state}
+
+          <button onClick={() => dispatch(increment())}>Increment</button>
+
+          <button disabled={!undo.isPossible} onClick={() => undo()}>
+            Undo
+          </button>
+          <button disabled={!redo.isPossible} onClick={() => redo()}>
+            Redo
+          </button>
+        </div>
+      );
+    };
+
+    const { getByText } = render(
+      <UndoRedoProvider>
+        <Component />
+      </UndoRedoProvider>
+    );
+
+    fireEvent.click(getByText("Increment"));
+
+    expect(getByText("Redo")).toBeDisabled();
+
+    fireEvent.click(getByText("Undo"));
+
+    expect(getByText("Redo")).not.toBeDisabled();
+  });
 });

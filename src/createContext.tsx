@@ -13,8 +13,8 @@ import {
   UndoRedoReducer,
   UndoRedoState,
   createReducer,
-  redo,
-  undo,
+  redo as redoAction,
+  undo as undoAction,
 } from "./createReducer";
 
 type Dispatch<Actions> = (action: Actions) => void;
@@ -28,8 +28,8 @@ type UndoRedoProviderProps = {
   children: ReactNode;
 };
 
-type Undo = () => void;
-type Redo = () => void;
+type Undo = { (): void; isPossible: boolean };
+type Redo = { (): void; isPossible: boolean };
 
 export function createContext<Present, Actions>(
   reducer: PresentReducer<Present, Actions>,
@@ -71,12 +71,17 @@ export function createContext<Present, Actions>(
   }
 
   function useUndoRedo(): [undo: Undo, redo: Redo] {
-    const [, dispatch] = useContext(Context);
+    const [state, dispatch] = useContext(Context);
 
-    return [
-      useCallback(() => dispatch(undo()), [dispatch]),
-      useCallback(() => dispatch(redo()), [dispatch]),
-    ];
+    const undo = useCallback(() => dispatch(undoAction()), [dispatch]) as Undo;
+
+    undo.isPossible = state.past.length > 0;
+
+    const redo = useCallback(() => dispatch(redoAction()), [dispatch]) as Redo;
+
+    redo.isPossible = state.future.length > 0;
+
+    return [undo, redo];
   }
 
   return { UndoRedoProvider, usePresent, useUndoRedo };
