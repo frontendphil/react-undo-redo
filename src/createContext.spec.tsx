@@ -7,7 +7,7 @@ import { countReducer, increment } from "./test";
 
 describe("createContext", () => {
   it("should provide access to the present state.", () => {
-    const { UndoRedoProvider, usePresent } = createContext(countReducer, 0);
+    const { UndoRedoProvider, usePresent } = createContext(countReducer);
     const Component = () => {
       const [state] = usePresent();
 
@@ -15,7 +15,7 @@ describe("createContext", () => {
     };
 
     const { queryByText } = render(
-      <UndoRedoProvider>
+      <UndoRedoProvider initialState={0}>
         <Component />
       </UndoRedoProvider>
     );
@@ -25,8 +25,7 @@ describe("createContext", () => {
 
   it("should be possible to undo an update.", () => {
     const { UndoRedoProvider, usePresent, useUndoRedo } = createContext(
-      countReducer,
-      0
+      countReducer
     );
 
     const Component = () => {
@@ -45,7 +44,7 @@ describe("createContext", () => {
     };
 
     const { queryByText, getByText } = render(
-      <UndoRedoProvider>
+      <UndoRedoProvider initialState={0}>
         <Component />
       </UndoRedoProvider>
     );
@@ -61,8 +60,7 @@ describe("createContext", () => {
 
   it("should be possible to redo an update.", () => {
     const { UndoRedoProvider, usePresent, useUndoRedo } = createContext(
-      countReducer,
-      0
+      countReducer
     );
 
     const Component = () => {
@@ -82,7 +80,7 @@ describe("createContext", () => {
     };
 
     const { queryByText, getByText } = render(
-      <UndoRedoProvider>
+      <UndoRedoProvider initialState={0}>
         <Component />
       </UndoRedoProvider>
     );
@@ -96,8 +94,7 @@ describe("createContext", () => {
 
   it("should be possible to access information whether undo is possible.", () => {
     const { UndoRedoProvider, usePresent, useUndoRedo } = createContext(
-      countReducer,
-      0
+      countReducer
     );
 
     const Component = () => {
@@ -118,7 +115,7 @@ describe("createContext", () => {
     };
 
     const { getByText } = render(
-      <UndoRedoProvider>
+      <UndoRedoProvider initialState={0}>
         <Component />
       </UndoRedoProvider>
     );
@@ -132,8 +129,7 @@ describe("createContext", () => {
 
   it("should be possible to access information whether redo is possible.", () => {
     const { UndoRedoProvider, usePresent, useUndoRedo } = createContext(
-      countReducer,
-      0
+      countReducer
     );
 
     const Component = () => {
@@ -157,7 +153,7 @@ describe("createContext", () => {
     };
 
     const { getByText } = render(
-      <UndoRedoProvider>
+      <UndoRedoProvider initialState={0}>
         <Component />
       </UndoRedoProvider>
     );

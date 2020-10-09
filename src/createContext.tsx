@@ -6,6 +6,7 @@ import React, {
   useContext,
   useReducer,
 } from "react";
+import invariant from "tiny-invariant";
 
 import {
   PresentReducer,
@@ -24,29 +25,27 @@ type UndoRedoContext<Present, Actions> = [
   dispatch: Dispatch<UndoRedoActions<Actions>>
 ];
 
-type UndoRedoProviderProps = {
+type UndoRedoProviderProps<Present> = {
   children: ReactNode;
+  initialState: Present;
 };
 
 type Undo = { (): void; isPossible: boolean };
 type Redo = { (): void; isPossible: boolean };
 
 export function createContext<Present, Actions>(
-  reducer: PresentReducer<Present, Actions>,
-  initialState: Present
+  reducer: PresentReducer<Present, Actions>
 ): {
-  UndoRedoProvider: ComponentType<UndoRedoProviderProps>;
+  UndoRedoProvider: ComponentType<UndoRedoProviderProps<Present>>;
   usePresent: () => [Present, Dispatch<Actions>];
   useUndoRedo: () => [undo: Undo, redo: Redo];
 } {
-  const initialUndoRedoState = {
-    past: [],
-    present: initialState,
-    future: [],
-  };
-
-  const Context = createReactContext<UndoRedoContext<Present, Actions>>([
-    initialUndoRedoState,
+  const Context = createReactContext<UndoRedoContext<void | Present, Actions>>([
+    {
+      past: [],
+      present: undefined,
+      future: [],
+    },
     function invalidDispatch() {
       throw new Error("Undo/Redo dispatch called outside of UndoRedoContext.");
     },
@@ -54,7 +53,16 @@ export function createContext<Present, Actions>(
 
   const undoRedoReducer = createReducer(reducer);
 
-  function UndoRedoProvider({ children }: UndoRedoProviderProps) {
+  function UndoRedoProvider({
+    children,
+    initialState,
+  }: UndoRedoProviderProps<Present>) {
+    const initialUndoRedoState = {
+      past: [],
+      present: initialState,
+      future: [],
+    };
+
     const [state, dispatch] = useReducer<
       UndoRedoReducer<Present, UndoRedoActions<Actions>>
     >(undoRedoReducer, initialUndoRedoState);
@@ -66,6 +74,11 @@ export function createContext<Present, Actions>(
 
   function usePresent(): [state: Present, dispatch: Dispatch<Actions>] {
     const [state, dispatch] = useContext(Context);
+
+    invariant(
+      state.present != null,
+      "No present state found. Did you wrap your app in an UndoRedoProvider?"
+    );
 
     return [state.present, dispatch];
   }
