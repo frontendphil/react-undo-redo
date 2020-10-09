@@ -7,14 +7,14 @@ describe("create reducer", () => {
     const initAction = { type: "@@INIT" };
 
     it("should initialize the state with an empty past.", () => {
-      const reducer = createReducer(presentReducer);
+      const reducer = createReducer(presentReducer, null);
       const state = reducer(undefined, initAction);
 
       expect(state).toHaveProperty("past", []);
     });
 
     it("should initialize the state with an empty future.", () => {
-      const reducer = createReducer(presentReducer);
+      const reducer = createReducer(presentReducer, null);
       const state = reducer(undefined, initAction);
 
       expect(state).toHaveProperty("future", []);
@@ -24,7 +24,7 @@ describe("create reducer", () => {
       const initialState = {};
       const presentReducer = () => initialState;
 
-      const reducer = createReducer(presentReducer);
+      const reducer = createReducer(presentReducer, null);
       const state = reducer(undefined, initAction);
 
       expect(state).toHaveProperty("present", initialState);
@@ -43,7 +43,7 @@ describe("create reducer", () => {
 
   describe("ready state", () => {
     it("should move the current present into the past when an action is processed.", () => {
-      const reducer = createReducer(countReducer);
+      const reducer = createReducer(countReducer, 0);
       const initialState = {
         past: [],
         present: 0,
@@ -57,7 +57,7 @@ describe("create reducer", () => {
     });
 
     it("should be possible to undo an action.", () => {
-      const reducer = createReducer(countReducer);
+      const reducer = createReducer(countReducer, 0);
       const initialState = {
         past: [],
         present: 0,
@@ -72,7 +72,7 @@ describe("create reducer", () => {
     });
 
     it("should be possible to redo an action.", () => {
-      const reducer = createReducer(countReducer);
+      const reducer = createReducer(countReducer, 0);
       const initialState = {
         past: [],
         present: 0,

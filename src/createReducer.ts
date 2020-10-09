@@ -33,7 +33,7 @@ export type UndoRedoActions<Base> = Base | UndoAction | RedoAction;
 
 export function createReducer<Present, Actions>(
   presentReducer: PresentReducer<Present, Actions>,
-  initialState?: Present
+  initialState: Present
 ): UndoRedoReducer<Present, UndoRedoActions<Actions>> {
   return function reducer(
     state: void | UndoRedoState<Present>,

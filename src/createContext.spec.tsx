@@ -2,18 +2,26 @@ import React from "react";
 
 import { render } from "@testing-library/react";
 
+import { createContext } from "./createContext";
 import { countReducer } from "./test";
-import { useUndoRedo } from "./useUndoRedo";
 
-describe("useUndoRedo", () => {
+describe("createContext", () => {
   it("should provide access to the present state.", () => {
+    const { UndoRedoProvider, usePresentState } = createContext(
+      countReducer,
+      0
+    );
     const Component = () => {
-      const [state] = useUndoRedo(countReducer, 0);
+      const state = usePresentState();
 
       return <div>{state}</div>;
     };
 
-    const { queryByText } = render(<Component />);
+    const { queryByText } = render(
+      <UndoRedoProvider>
+        <Component />
+      </UndoRedoProvider>
+    );
 
     expect(queryByText("0")).toBeInTheDocument();
   });
