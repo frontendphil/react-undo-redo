@@ -8,11 +8,18 @@
   "license": "Apache-2.0",
   "private": false,
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "jest"
   },
   "devDependencies": {
     "@types/react": "^16.9.51",
     "@types/react-dom": "^16.9.8",
+    "jest": "^26.5.2",
+    "react": "^16.13.1",
+    "ts-jest": "^26.4.1",
     "typescript": "^4.0.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0"
   }
 }
