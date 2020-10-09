@@ -1,5 +1,3 @@
-import invariant from "tiny-invariant";
-
 export type UndoRedoState<Present> = {
   past: Present[];
   present: Present;
@@ -38,13 +36,7 @@ export function createReducer<Present, Actions>(
     state: UndoRedoState<Present>,
     action: UndoRedoActions<Actions>
   ): UndoRedoState<Present> {
-    if (
-      "type" in action &&
-      (action.type === UndoRedoActionTypes.UNDO ||
-        action.type === UndoRedoActionTypes.REDO)
-    ) {
-      invariant(state, "Undo-redo state must have been initialized");
-
+    if ("type" in action) {
       if (action.type === UndoRedoActionTypes.UNDO) {
         const [present, ...past] = state.past;
 
@@ -64,8 +56,6 @@ export function createReducer<Present, Actions>(
           future,
         };
       }
-
-      return state;
     }
 
     return {
