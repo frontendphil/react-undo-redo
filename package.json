@@ -1,0 +1,18 @@
+{
+  "name": "react-undo-redo",
+  "version": "1.0.0",
+  "description": "A library to add undo-redo to any reducer",
+  "main": "lib/index.js",
+  "repository": "git@github.com:frontendphil/react-undo-redo.git",
+  "author": "Philipp Giese <giese.philipp+git@gmail.com>",
+  "license": "Apache-2.0",
+  "private": false,
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.51",
+    "@types/react-dom": "^16.9.8",
+    "typescript": "^4.0.3"
+  }
+}
