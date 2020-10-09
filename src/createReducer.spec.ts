@@ -1,6 +1,5 @@
-import invariant from "tiny-invariant";
-
 import { createReducer, redo, undo } from "./createReducer";
+import { countReducer, increment } from "./test";
 
 describe("create reducer", () => {
   describe("init", () => {
@@ -43,42 +42,6 @@ describe("create reducer", () => {
   });
 
   describe("ready state", () => {
-    enum CountActionTypes {
-      INCREMENT = "@@count/increment",
-      DECREMENT = "@@count/decrement",
-    }
-
-    type IncrementAction = {
-      type: CountActionTypes.INCREMENT;
-    };
-
-    type DecrementAction = {
-      type: CountActionTypes.DECREMENT;
-    };
-
-    type CountActions = IncrementAction | DecrementAction;
-
-    const countReducer = (
-      state: void | number,
-      action: CountActions
-    ): number => {
-      invariant(state != null, "Count reducer needs an initial state");
-
-      switch (action.type) {
-        case CountActionTypes.INCREMENT:
-          return state + 1;
-        case CountActionTypes.DECREMENT:
-          return state - 1;
-        default:
-          invariant(false, "Count reducer received an unknown action.");
-      }
-    };
-
-    const increment = (): IncrementAction =>
-      ({ type: CountActionTypes.INCREMENT } as const);
-    const decrement = (): DecrementAction =>
-      ({ type: CountActionTypes.DECREMENT } as const);
-
     it("should move the current present into the past when an action is processed.", () => {
       const reducer = createReducer(countReducer);
       const initialState = {

@@ -1,20 +1,20 @@
 import invariant from "tiny-invariant";
 
-type State<Present> = {
+export type UndoRedoState<Present> = {
   past: Present[];
   present: Present;
   future: Present[];
 };
 
-type PresentReducer<Present, Actions> = (
+export type PresentReducer<Present, Actions> = (
   state: void | Present,
   action: Actions
 ) => Present;
 
-type UndoRedoReducer<Present, Actions> = (
-  state: void | State<Present>,
+export type UndoRedoReducer<Present, Actions> = (
+  state: void | UndoRedoState<Present>,
   action: Actions
-) => State<Present>;
+) => UndoRedoState<Present>;
 
 enum UndoRedoActionTypes {
   UNDO = "@@react-undo-redo/undo",
@@ -29,16 +29,16 @@ type RedoAction = {
   type: UndoRedoActionTypes.REDO;
 };
 
-type UndoRedoActions<Base> = Base | UndoAction | RedoAction;
+export type UndoRedoActions<Base> = Base | UndoAction | RedoAction;
 
 export function createReducer<Present, Actions>(
   presentReducer: PresentReducer<Present, Actions>,
   initialState?: Present
 ): UndoRedoReducer<Present, UndoRedoActions<Actions>> {
   return function reducer(
-    state: void | State<Present>,
+    state: void | UndoRedoState<Present>,
     action: UndoRedoActions<Actions>
-  ): State<Present> {
+  ): UndoRedoState<Present> {
     if (
       "type" in action &&
       (action.type === UndoRedoActionTypes.UNDO ||
