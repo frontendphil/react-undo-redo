@@ -37,8 +37,7 @@ export function createContext<Present, Actions>(
 ): {
   UndoRedoProvider: ComponentType<UndoRedoProviderProps>;
   usePresentState: () => [Present, Dispatch<Actions>];
-  useUndo: () => Undo;
-  useRedo: () => Redo;
+  useUndoRedo: () => [undo: Undo, redo: Redo];
 } {
   const initialUndoRedoState = {
     past: [],
@@ -71,17 +70,14 @@ export function createContext<Present, Actions>(
     return [state.present, dispatch];
   }
 
-  function useUndo(): Undo {
+  function useUndoRedo(): [undo: Undo, redo: Redo] {
     const [, dispatch] = useContext(Context);
 
-    return useCallback(() => dispatch(undo()), [dispatch]);
+    return [
+      useCallback(() => dispatch(undo()), [dispatch]),
+      useCallback(() => dispatch(redo()), [dispatch]),
+    ];
   }
 
-  function useRedo(): Redo {
-    const [, dispatch] = useContext(Context);
-
-    return useCallback(() => dispatch(redo()), [dispatch]);
-  }
-
-  return { UndoRedoProvider, usePresentState, useUndo, useRedo };
+  return { UndoRedoProvider, usePresentState, useUndoRedo };
 }

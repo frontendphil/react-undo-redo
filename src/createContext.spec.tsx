@@ -27,14 +27,14 @@ describe("createContext", () => {
   });
 
   it("should be possible to undo an update.", () => {
-    const { UndoRedoProvider, usePresentState, useUndo } = createContext(
+    const { UndoRedoProvider, usePresentState, useUndoRedo } = createContext(
       countReducer,
       0
     );
 
     const Component = () => {
       const [state, dispatch] = usePresentState();
-      const undo = useUndo();
+      const [undo] = useUndoRedo();
 
       return (
         <div>
@@ -63,17 +63,14 @@ describe("createContext", () => {
   });
 
   it("should be possible to redo an update.", () => {
-    const {
-      UndoRedoProvider,
-      usePresentState,
-      useUndo,
-      useRedo,
-    } = createContext(countReducer, 0);
+    const { UndoRedoProvider, usePresentState, useUndoRedo } = createContext(
+      countReducer,
+      0
+    );
 
     const Component = () => {
       const [state, dispatch] = usePresentState();
-      const undo = useUndo();
-      const redo = useRedo();
+      const [undo, redo] = useUndoRedo();
 
       return (
         <div>
