@@ -3,8 +3,6 @@ import { render } from "react-dom";
 import { createUndoRedo } from "react-undo-redo";
 import { countReducer, decrement, increment } from "test";
 
-import { redo, undo } from "../src/createReducer";
-
 const { UndoRedoProvider, usePresent, useUndoRedo } = createUndoRedo(
   countReducer,
   0
@@ -37,7 +35,9 @@ function Counter() {
         <button onClick={() => dispatch(increment())}>+</button>
       </div>
 
-      <Controls />
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Controls />
+      </div>
     </>
   );
 }
@@ -47,8 +47,12 @@ function Controls() {
 
   return (
     <>
-      <button onClick={() => undo()}>Undo</button>
-      <button onClick={() => redo()}>Redo</button>
+      <button disabled={!undo.isPossible} onClick={() => undo()}>
+        Undo
+      </button>
+      <button disabled={!redo.isPossible} onClick={() => redo()}>
+        Redo
+      </button>
     </>
   );
 }
