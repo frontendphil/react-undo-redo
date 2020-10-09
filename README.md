@@ -20,28 +20,49 @@ npm install --save react-undo-redo
 
 ## Usage
 
+In order to create the provider and hooks to manage undo and redo you call `createUndoRedo` and pass the `reducer` you'd like to enhance.
+This methods returns a provider component and hooks to work with your state.
+The `reducer` you pass does not need any knowledge about this feature.
+
 ```js
-import React from "react";
 import { createUndoRedo } from "react-undo-redo";
 
-import { yourReducer } from "./yourReducer";
+const { UndoRedoProvider, usePresent, useUndoRedo } = createUndoRedo(reducer);
+```
 
-const { UndoRedoProvider, usePresent, useUndoRedo } = createUndoRedo(
-  yourReducer,
-  initialState
-);
+### `UndoRedoProvider`
 
-function Application() {
-  return <UndoRedoProvider>{/* Your application code */}</UndoRedoProvider>;
-}
+| Prop           | Required | Description                                                                                               |
+| -------------- | -------- | --------------------------------------------------------------------------------------------------------- |
+| `initialState` | ✔️       | The initial state that your reducer needs. This does **not** need any notion of past, present, or future. |
 
-function Menu() {
+### `usePresent` => `[state, dispatch]`
+
+The return value of this hook mimics the [`useReducer`](https://reactjs.org/docs/hooks-reference.html#usereducer) hook.
+You get access to the current present state.
+Use the `dispatch` method to dispatch any of your actions.
+
+### `useUndoRedo` => `[undo, redo]`
+
+Returns a tuple that contains methods to signal `undo` or `redo`.
+If you call the two methods `react-undo-redo` updates the current `present` state.
+
+**Important**: You can also call `undo` or `redo` when there is nothing to undo or redo.
+However, you can check whether there is anything to undo or redo by checking the `isPossible` prop that is present on both methods.
+
+```js
+function Component() {
   const [undo, redo] = useUndoRedo();
 
   return (
     <>
-      <button onClick={() => undo()}>Undo</button>
-      <button onClick={() => redo()}>Redo</button>
+      <button disabled={!undo.isPossible} onClick={() => undo()}>
+        Undo
+      </button>
+
+      <button disabled={!redo.isPossible} onClick={() => redo()}>
+        Redo
+      </button>
     </>
   );
 }
