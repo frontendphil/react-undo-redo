@@ -10,7 +10,7 @@
   "scripts": {
     "clean": "rimraf lib",
     "prebuild": "yarn clean",
-    "build": "tsc --build src/tsconfig.json",
+    "build": "tsc --build tsconfig.json",
     "test": "jest"
   },
   "devDependencies": {
