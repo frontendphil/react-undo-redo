@@ -52,7 +52,7 @@ export function createContext<Present, Actions>(
     },
   ]);
 
-  const undoRedoReducer = createReducer(reducer, initialState);
+  const undoRedoReducer = createReducer(reducer);
 
   function UndoRedoProvider({ children }: UndoRedoProviderProps) {
     const [state, dispatch] = useReducer<

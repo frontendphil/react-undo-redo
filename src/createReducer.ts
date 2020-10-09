@@ -32,8 +32,7 @@ type RedoAction = {
 export type UndoRedoActions<Base> = Base | UndoAction | RedoAction;
 
 export function createReducer<Present, Actions>(
-  presentReducer: PresentReducer<Present, Actions>,
-  initialState: Present
+  presentReducer: PresentReducer<Present, Actions>
 ): UndoRedoReducer<Present, UndoRedoActions<Actions>> {
   return function reducer(
     state: void | UndoRedoState<Present>,
@@ -72,7 +71,7 @@ export function createReducer<Present, Actions>(
     if (!state) {
       return {
         past: [],
-        present: presentReducer(initialState, action),
+        present: presentReducer(undefined, action),
         future: [],
       };
     }
