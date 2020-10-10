@@ -4,13 +4,12 @@ import { createUndoRedo } from "react-undo-redo";
 import { countReducer, decrement, increment } from "test";
 
 const { UndoRedoProvider, usePresent, useUndoRedo } = createUndoRedo(
-  countReducer,
-  0
+  countReducer
 );
 
 function App() {
   return (
-    <UndoRedoProvider>
+    <UndoRedoProvider initialState={0}>
       <Counter />
     </UndoRedoProvider>
   );
