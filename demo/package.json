@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "html-webpack-harddisk-plugin": "1.0.2",
-    "html-webpack-plugin": "4.5.0",
+    "html-webpack-plugin": "4.5.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "ts-loader": "8.0.4",
