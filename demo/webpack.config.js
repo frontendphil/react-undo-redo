@@ -1,7 +1,7 @@
-const path = require("path");
+const path = require("path")
 
-const HTMLWebpackPlugin = require("html-webpack-plugin");
-const HTMLWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
+const HTMLWebpackPlugin = require("html-webpack-plugin")
+const HTMLWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin")
 
 module.exports = {
   mode: "development",
@@ -38,4 +38,4 @@ module.exports = {
       },
     ],
   },
-};
+}

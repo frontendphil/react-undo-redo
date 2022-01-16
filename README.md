@@ -25,9 +25,9 @@ This methods returns a provider component and hooks to work with your state.
 The `reducer` you pass does not need any knowledge about this feature.
 
 ```js
-import { createUndoRedo } from "react-undo-redo";
+import { createUndoRedo } from "react-undo-redo"
 
-const { UndoRedoProvider, usePresent, useUndoRedo } = createUndoRedo(reducer);
+const { UndoRedoProvider, usePresent, useUndoRedo } = createUndoRedo(reducer)
 ```
 
 ### `UndoRedoProvider`
@@ -42,7 +42,7 @@ function Component() {
     <UndoRedoProvider initialState={0}>
       <Counter />
     </UndoRedoProvider>
-  );
+  )
 }
 ```
 
@@ -54,7 +54,7 @@ Use the `dispatch` method to dispatch any of your actions.
 
 ```js
 function Component() {
-  const [count, dispatch] = usePresent();
+  const [count, dispatch] = usePresent()
 
   return (
     <>
@@ -62,7 +62,7 @@ function Component() {
 
       <button onClick={() => dispatch({ type: "increment" })}>Add 1</button>
     </>
-  );
+  )
 }
 ```
 
@@ -76,7 +76,7 @@ However, you can check whether there is anything to undo or redo by checking the
 
 ```js
 function Component() {
-  const [undo, redo] = useUndoRedo();
+  const [undo, redo] = useUndoRedo()
 
   return (
     <>
@@ -88,6 +88,6 @@ function Component() {
         Redo
       </button>
     </>
-  );
+  )
 }
 ```
