@@ -1,4 +1,4 @@
-import invariant from "tiny-invariant";
+import invariant from "tiny-invariant"
 
 enum CountActionTypes {
   INCREMENT = "@@count/increment",
@@ -6,29 +6,29 @@ enum CountActionTypes {
 }
 
 type IncrementAction = {
-  type: CountActionTypes.INCREMENT;
-};
+  type: CountActionTypes.INCREMENT
+}
 
 type DecrementAction = {
-  type: CountActionTypes.DECREMENT;
-};
+  type: CountActionTypes.DECREMENT
+}
 
-type CountActions = IncrementAction | DecrementAction;
+type CountActions = IncrementAction | DecrementAction
 
 export const countReducer = (state: number, action: CountActions): number => {
-  invariant(state != null, "Count reducer needs an initial state");
+  invariant(state != null, "Count reducer needs an initial state")
 
   switch (action.type) {
     case CountActionTypes.INCREMENT:
-      return state + 1;
+      return state + 1
     case CountActionTypes.DECREMENT:
-      return state - 1;
+      return state - 1
     default:
-      invariant(false, "Count reducer received an unknown action.");
+      invariant(false, "Count reducer received an unknown action.")
   }
-};
+}
 
 export const increment = (): IncrementAction =>
-  ({ type: CountActionTypes.INCREMENT } as const);
+  ({ type: CountActionTypes.INCREMENT } as const)
 export const decrement = (): DecrementAction =>
-  ({ type: CountActionTypes.DECREMENT } as const);
+  ({ type: CountActionTypes.DECREMENT } as const)

@@ -1,22 +1,21 @@
-import React from "react";
-import { render } from "react-dom";
-import { createUndoRedo } from "react-undo-redo";
-import { countReducer, decrement, increment } from "test";
+import React from "react"
+import { render } from "react-dom"
+import { createUndoRedo } from "react-undo-redo"
+import { countReducer, decrement, increment } from "test"
 
-const { UndoRedoProvider, usePresent, useUndoRedo } = createUndoRedo(
-  countReducer
-);
+const { UndoRedoProvider, usePresent, useUndoRedo } =
+  createUndoRedo(countReducer)
 
 function App() {
   return (
     <UndoRedoProvider initialState={0}>
       <Counter />
     </UndoRedoProvider>
-  );
+  )
 }
 
 function Counter() {
-  const [count, dispatch] = usePresent();
+  const [count, dispatch] = usePresent()
 
   return (
     <>
@@ -38,11 +37,11 @@ function Counter() {
         <Controls />
       </div>
     </>
-  );
+  )
 }
 
 function Controls() {
-  const [undo, redo] = useUndoRedo();
+  const [undo, redo] = useUndoRedo()
 
   return (
     <>
@@ -53,7 +52,7 @@ function Controls() {
         Redo
       </button>
     </>
-  );
+  )
 }
 
-render(<App />, document.getElementById("demo"));
+render(<App />, document.getElementById("demo"))
