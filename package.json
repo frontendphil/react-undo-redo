@@ -12,7 +12,8 @@
     "prebuild": "yarn clean",
     "build": "tsc --build tsconfig.json",
     "prepublishOnly": "yarn build && yarn test",
-    "test": "jest"
+    "test": "jest",
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.11.4",
@@ -20,11 +21,15 @@
     "@types/react": "16.9.51",
     "@types/react-dom": "16.9.8",
     "jest": "26.5.2",
+    "prettier": "2.5.1",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "rimraf": "3.0.2",
     "ts-jest": "26.4.1",
     "typescript": "4.0.3"
+  },
+  "prettier": {
+    "semi": false
   },
   "peerDependencies": {
     "react": "^16.8.0"
