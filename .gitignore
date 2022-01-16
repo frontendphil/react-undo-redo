@@ -2,3 +2,5 @@ node_modules
 lib
 build
 tsconfig.tsbuildinfo
+
+*.log

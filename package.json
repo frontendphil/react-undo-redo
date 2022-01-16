@@ -13,13 +13,15 @@
     "build": "tsc --build tsconfig.json",
     "prepublishOnly": "yarn build && yarn test",
     "test": "jest",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.11.4",
     "@testing-library/react": "11.0.4",
     "@types/react": "16.9.51",
     "@types/react-dom": "16.9.14",
+    "husky": "7.0.4",
     "jest": "26.5.2",
     "prettier": "2.5.1",
     "react": "16.14.0",
@@ -30,6 +32,9 @@
   },
   "prettier": {
     "semi": false
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,json,html}": "prettier"
   },
   "peerDependencies": {
     "react": "^16.8.0"
