@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.16.1",
-    "@testing-library/react": "11.2.7",
+    "@testing-library/react": "12.1.2",
     "@types/react": "17.0.38",
     "@types/react-dom": "16.9.14",
     "husky": "7.0.4",
