@@ -3,7 +3,7 @@ import React from "react"
 import { fireEvent, render } from "@testing-library/react"
 
 import { createContext } from "./createContext"
-import { countReducer, increment } from "./test"
+import { countReducer, increment } from "./fixtures"
 
 describe("createContext", () => {
   it("should provide access to the present state.", () => {

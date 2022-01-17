@@ -1,5 +1,5 @@
 import { createReducer, redo, undo } from "./createReducer"
-import { countReducer, increment } from "./test"
+import { countReducer, increment } from "./fixtures"
 
 describe("create reducer", () => {
   const initialState = {
