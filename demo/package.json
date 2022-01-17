@@ -10,7 +10,7 @@
     "build": "webpack"
   },
   "devDependencies": {
-    "html-webpack-harddisk-plugin": "1.0.2",
+    "html-webpack-harddisk-plugin": "2.0.0",
     "html-webpack-plugin": "4.5.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
