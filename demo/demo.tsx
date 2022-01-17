@@ -1,7 +1,7 @@
 import React from "react"
 import { render } from "react-dom"
 import { createUndoRedo } from "react-undo-redo"
-import { countReducer, decrement, increment } from "test"
+import { countReducer, decrement, increment } from "./test"
 
 const { UndoRedoProvider, usePresent, useUndoRedo } =
   createUndoRedo(countReducer)
