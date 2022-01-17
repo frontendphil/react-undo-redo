@@ -2076,10 +2076,10 @@ react-dom@17.0.2:
     object-assign "^4.1.1"
     scheduler "^0.20.2"
 
-react-undo-redo@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-undo-redo/-/react-undo-redo-2.0.0.tgz#c9a2d9e7495e64de93b0928a6dcc496f2893a715"
-  integrity sha512-Sb0ZSj4fzhKX3LIyRuBsnuz6Zt3qNqluTVk/BI6fOegR93jNBRVa6sf/v9R+Az05CEiRYqkd5E0CJX0V6/Yb7g==
+react-undo-redo@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-undo-redo/-/react-undo-redo-2.0.1.tgz#33ee791df45164d8b14614009b09658f639e3228"
+  integrity sha512-X8sd7p1w6vG4/Mo7KdcClTrHvmMl7BIgJ62gXl6czeY+4GDRV74yGDQRAH8PHy+O/XdveqwLnMn58icIAKY+pg==
   dependencies:
     tiny-invariant "^1.1.0"
 
