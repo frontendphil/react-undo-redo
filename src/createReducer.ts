@@ -14,7 +14,7 @@ export type UndoRedoReducer<Present, Actions> = (
   action: Actions
 ) => UndoRedoState<Present>
 
-enum UndoRedoActionTypes {
+const enum UndoRedoActionTypes {
   UNDO = "@@react-undo-redo/undo",
   REDO = "@@react-undo-redo/redo",
 }
