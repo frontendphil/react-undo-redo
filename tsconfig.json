@@ -11,5 +11,11 @@
     "forceConsistentCasingInFileNames": true,
     "declaration": true
   },
-  "exclude": ["demo", "**/*.spec.ts", "**/*.spec.tsx", "jest.setup.ts"]
+  "exclude": [
+    "*/test",
+    "demo",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "jest.setup.ts"
+  ]
 }
