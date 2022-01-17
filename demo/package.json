@@ -9,6 +9,9 @@
     "start": "webpack-dev-server",
     "build": "webpack"
   },
+  "dependencies": {
+    "react-undo-redo": "2.0.0"
+  },
   "devDependencies": {
     "html-webpack-harddisk-plugin": "2.0.0",
     "html-webpack-plugin": "5.5.0",
