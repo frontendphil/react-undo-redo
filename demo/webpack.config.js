@@ -4,7 +4,7 @@ const HTMLWebpackPlugin = require("html-webpack-plugin")
 const HTMLWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin")
 
 module.exports = {
-  mode: "development",
+  mode: process.env.NODE_ENV !== 'production' ? 'development' : 'production',
   entry: [path.resolve(__dirname, "demo.tsx")],
   output: {
     path: path.resolve(__dirname, "../docs"),
@@ -22,12 +22,6 @@ module.exports = {
   ],
   resolve: {
     extensions: [".js", ".ts", ".tsx"],
-    alias: {
-      "react-undo-redo": path.resolve(__dirname, "../src"),
-      test: path.resolve(__dirname, "../src/test"),
-      react: path.resolve(__dirname, "node_modules/react"),
-      "react-dom": path.resolve(__dirname, "node_modules/react-dom"),
-    },
   },
   module: {
     rules: [

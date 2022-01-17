@@ -10,13 +10,16 @@
     "build": "webpack"
   },
   "dependencies": {
-    "react-undo-redo": "2.0.0"
-  },
-  "devDependencies": {
-    "html-webpack-harddisk-plugin": "2.0.0",
-    "html-webpack-plugin": "5.5.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-undo-redo": "2.0.0",
+    "tiny-invariant": "1.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
+    "html-webpack-harddisk-plugin": "2.0.0",
+    "html-webpack-plugin": "5.5.0",
     "ts-loader": "9.2.6",
     "typescript": "4.5.4",
     "webpack": "5.66.0",
