@@ -16,7 +16,7 @@
     "tiny-invariant": "1.2.0"
   },
   "devDependencies": {
-    "@types/react": "17.0.44",
+    "@types/react": "18.0.0",
     "@types/react-dom": "17.0.15",
     "html-webpack-harddisk-plugin": "2.0.0",
     "html-webpack-plugin": "5.5.0",
