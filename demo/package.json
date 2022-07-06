@@ -10,8 +10,8 @@
     "build": "webpack"
   },
   "dependencies": {
-    "react": "18.0.0",
-    "react-dom": "18.0.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-undo-redo": "2.0.1",
     "tiny-invariant": "1.2.0"
   },
