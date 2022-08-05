@@ -17,7 +17,7 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "5.16.4",
+    "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "13.3.0",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
