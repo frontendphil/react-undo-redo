@@ -29,7 +29,7 @@ type RedoAction = {
 
 export type UndoRedoActions<Base> = Base | UndoAction | RedoAction
 
-export function createReducer<Present, Actions>(
+export function createReducer<Present, Actions extends {}>(
   presentReducer: PresentReducer<Present, Actions>
 ): UndoRedoReducer<Present, UndoRedoActions<Actions>> {
   return function reducer(
