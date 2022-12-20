@@ -1,6 +1,6 @@
 {
   "name": "react-undo-redo",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A library to add undo-redo to any reducer",
   "main": "lib/index.js",
   "repository": "git@github.com:frontendphil/react-undo-redo.git",
