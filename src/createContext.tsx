@@ -33,7 +33,7 @@ type UndoRedoProviderProps<Present> = {
 type Undo = { (): void; isPossible: boolean }
 type Redo = { (): void; isPossible: boolean }
 
-export function createContext<Present, Actions>(
+export function createContext<Present, Actions extends {}>(
   reducer: PresentReducer<Present, Actions>
 ): {
   UndoRedoProvider: ComponentType<UndoRedoProviderProps<Present>>
