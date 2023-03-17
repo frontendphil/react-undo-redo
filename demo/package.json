@@ -21,7 +21,7 @@
     "html-webpack-harddisk-plugin": "2.0.0",
     "html-webpack-plugin": "5.5.0",
     "ts-loader": "9.4.2",
-    "typescript": "4.9.5",
+    "typescript": "5.0.2",
     "webpack": "5.76.2",
     "webpack-cli": "5.0.1",
     "webpack-dev-server": "4.12.0"
