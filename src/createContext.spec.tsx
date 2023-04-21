@@ -164,7 +164,7 @@ describe("createContext", () => {
   })
 
   it("should be possible to access the past", async () => {
-    const { UndoRedoProvider, usePresent, usePast } =
+    const { UndoRedoProvider, usePresent, usePast, useUndoRedo } =
       createContext(countReducer)
 
     const Component = () => {
@@ -186,5 +186,37 @@ describe("createContext", () => {
     await userEvent.click(screen.getByRole("button", { name: "Increment" }))
 
     expect(result.current).toEqual([0])
+  })
+
+  it("should be possible to access the future", async () => {
+    const { UndoRedoProvider, usePresent, useFuture, useUndoRedo } =
+      createContext(countReducer)
+
+    const Component = () => {
+      const [, dispatch] = usePresent()
+      const [undo] = useUndoRedo()
+
+      return (
+        <>
+          <button onClick={() => dispatch(increment())}>Increment</button>
+          <button onClick={() => undo()}>Undo</button>
+        </>
+      )
+    }
+
+    const { result } = renderHook(() => useFuture(), {
+      wrapper: ({ children }) => (
+        <UndoRedoProvider initialState={0}>
+          {children}
+
+          <Component />
+        </UndoRedoProvider>
+      ),
+    })
+
+    await userEvent.click(screen.getByRole("button", { name: "Increment" }))
+    await userEvent.click(screen.getByRole("button", { name: "Undo" }))
+
+    expect(result.current).toEqual([1])
   })
 })
