@@ -118,6 +118,7 @@ describe("createContext", () => {
         </UndoRedoProvider>
       ),
     })
+
     expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled()
 
     await userEvent.click(screen.getByRole("button", { name: "Increment" }))
@@ -160,5 +161,30 @@ describe("createContext", () => {
     await userEvent.click(screen.getByRole("button", { name: "Undo" }))
 
     expect(screen.getByRole("button", { name: "Redo" })).not.toBeDisabled()
+  })
+
+  it("should be possible to access the past", async () => {
+    const { UndoRedoProvider, usePresent, usePast } =
+      createContext(countReducer)
+
+    const Component = () => {
+      const [, dispatch] = usePresent()
+
+      return <button onClick={() => dispatch(increment())}>Increment</button>
+    }
+
+    const { result } = renderHook(() => usePast(), {
+      wrapper: ({ children }) => (
+        <UndoRedoProvider initialState={0}>
+          {children}
+
+          <Component />
+        </UndoRedoProvider>
+      ),
+    })
+
+    await userEvent.click(screen.getByRole("button", { name: "Increment" }))
+
+    expect(result.current).toEqual([0])
   })
 })

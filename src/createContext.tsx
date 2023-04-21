@@ -6,7 +6,6 @@ import React, {
   useContext,
   useReducer,
 } from "react"
-import invariant from "tiny-invariant"
 
 import {
   PresentReducer,
@@ -40,13 +39,22 @@ export function createContext<Present, Actions extends {}>(
 ): {
   UndoRedoProvider: ComponentType<UndoRedoProviderProps<Present>>
   usePresent: () => [Present, Dispatch<Actions>]
+  usePast: () => Present[]
   useUndoRedo: () => [undo: Undo, redo: Redo]
 } {
-  const Context = createReactContext<UndoRedoContext<void | Present, Actions>>([
+  const Context = createReactContext<UndoRedoContext<Present, Actions>>([
     {
-      past: [],
-      present: undefined,
-      future: [],
+      past: () => {
+        throw new Error("Undo/Redo past accessed outside of UndoRedoContext.")
+      },
+      present: () => {
+        throw new Error(
+          "Undo/Redo present accessed outside of UndoRedoContext."
+        )
+      },
+      future: () => {
+        throw new Error("Undo/Redo future accessed outside of UndoRedoContext.")
+      },
     },
     function invalidDispatch() {
       throw new Error("Undo/Redo dispatch called outside of UndoRedoContext.")
@@ -62,9 +70,9 @@ export function createContext<Present, Actions extends {}>(
     future = [],
   }: UndoRedoProviderProps<Present>) {
     const initialUndoRedoState = {
-      past,
-      present: initialState,
-      future,
+      past: () => past,
+      present: () => initialState,
+      future: () => future,
     }
 
     const [state, dispatch] = useReducer<
@@ -79,12 +87,13 @@ export function createContext<Present, Actions extends {}>(
   function usePresent(): [state: Present, dispatch: Dispatch<Actions>] {
     const [state, dispatch] = useContext(Context)
 
-    invariant(
-      state.present != null,
-      "No present state found. Did you wrap your app in an UndoRedoProvider?"
-    )
+    return [state.present(), dispatch]
+  }
 
-    return [state.present, dispatch]
+  function usePast(): Present[] {
+    const [state] = useContext(Context)
+
+    return state.past()
   }
 
   function useUndoRedo(): [undo: Undo, redo: Redo] {
@@ -92,14 +101,14 @@ export function createContext<Present, Actions extends {}>(
 
     const undo = useCallback(() => dispatch(undoAction()), [dispatch]) as Undo
 
-    undo.isPossible = state.past.length > 0
+    undo.isPossible = state.past().length > 0
 
     const redo = useCallback(() => dispatch(redoAction()), [dispatch]) as Redo
 
-    redo.isPossible = state.future.length > 0
+    redo.isPossible = state.future().length > 0
 
     return [undo, redo]
   }
 
-  return { UndoRedoProvider, usePresent, useUndoRedo }
+  return { UndoRedoProvider, usePresent, useUndoRedo, usePast }
 }
