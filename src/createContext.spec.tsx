@@ -1,6 +1,6 @@
 import React from "react"
 
-import { render, screen } from "@testing-library/react"
+import { render, screen, renderHook } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 
 import { createContext } from "./createContext"
@@ -9,19 +9,14 @@ import { countReducer, increment } from "./fixtures"
 describe("createContext", () => {
   it("should provide access to the present state.", () => {
     const { UndoRedoProvider, usePresent } = createContext(countReducer)
-    const Component = () => {
-      const [state] = usePresent()
 
-      return <div>{state}</div>
-    }
+    const { result } = renderHook(() => usePresent(), {
+      wrapper: ({ children }) => (
+        <UndoRedoProvider initialState={0}>{children}</UndoRedoProvider>
+      ),
+    })
 
-    render(
-      <UndoRedoProvider initialState={0}>
-        <Component />
-      </UndoRedoProvider>
-    )
-
-    expect(screen.queryByText("0")).toBeInTheDocument()
+    expect(result.current).toEqual([0, expect.anything()])
   })
 
   it("should be possible to undo an update.", async () => {
@@ -29,33 +24,35 @@ describe("createContext", () => {
       createContext(countReducer)
 
     const Component = () => {
-      const [state, dispatch] = usePresent()
+      const [, dispatch] = usePresent()
       const [undo] = useUndoRedo()
 
       return (
-        <div>
-          {state}
-
+        <>
           <button onClick={() => dispatch(increment())}>Increment</button>
 
           <button onClick={() => undo()}>Undo</button>
-        </div>
+        </>
       )
     }
 
-    render(
-      <UndoRedoProvider initialState={0}>
-        <Component />
-      </UndoRedoProvider>
-    )
+    const { result } = renderHook(() => usePresent(), {
+      wrapper: ({ children }) => (
+        <UndoRedoProvider initialState={0}>
+          {children}
+
+          <Component />
+        </UndoRedoProvider>
+      ),
+    })
 
     await userEvent.click(screen.getByRole("button", { name: "Increment" }))
 
-    expect(screen.queryByText("1")).toBeInTheDocument()
+    expect(result.current).toEqual([1, expect.anything()])
 
     await userEvent.click(screen.getByRole("button", { name: "Undo" }))
 
-    expect(screen.queryByText("0")).toBeInTheDocument()
+    expect(result.current).toEqual([0, expect.anything()])
   })
 
   it("should be possible to redo an update.", async () => {
@@ -63,32 +60,34 @@ describe("createContext", () => {
       createContext(countReducer)
 
     const Component = () => {
-      const [state, dispatch] = usePresent()
+      const [, dispatch] = usePresent()
       const [undo, redo] = useUndoRedo()
 
       return (
-        <div>
-          {state}
-
+        <>
           <button onClick={() => dispatch(increment())}>Increment</button>
 
           <button onClick={() => undo()}>Undo</button>
           <button onClick={() => redo()}>Redo</button>
-        </div>
+        </>
       )
     }
 
-    render(
-      <UndoRedoProvider initialState={0}>
-        <Component />
-      </UndoRedoProvider>
-    )
+    const { result } = renderHook(() => usePresent(), {
+      wrapper: ({ children }) => (
+        <UndoRedoProvider initialState={0}>
+          {children}
+
+          <Component />
+        </UndoRedoProvider>
+      ),
+    })
 
     await userEvent.click(screen.getByRole("button", { name: "Increment" }))
     await userEvent.click(screen.getByRole("button", { name: "Undo" }))
     await userEvent.click(screen.getByRole("button", { name: "Redo" }))
 
-    expect(screen.queryByText("1")).toBeInTheDocument()
+    expect(result.current).toEqual([1, expect.anything()])
   })
 
   it("should be possible to access information whether undo is possible.", async () => {
@@ -96,28 +95,29 @@ describe("createContext", () => {
       createContext(countReducer)
 
     const Component = () => {
-      const [state, dispatch] = usePresent()
+      const [, dispatch] = usePresent()
       const [undo] = useUndoRedo()
 
       return (
-        <div>
-          {state}
-
+        <>
           <button onClick={() => dispatch(increment())}>Increment</button>
 
           <button disabled={!undo.isPossible} onClick={() => undo()}>
             Undo
           </button>
-        </div>
+        </>
       )
     }
 
-    render(
-      <UndoRedoProvider initialState={0}>
-        <Component />
-      </UndoRedoProvider>
-    )
+    renderHook(() => usePresent(), {
+      wrapper: ({ children }) => (
+        <UndoRedoProvider initialState={0}>
+          {children}
 
+          <Component />
+        </UndoRedoProvider>
+      ),
+    })
     expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled()
 
     await userEvent.click(screen.getByRole("button", { name: "Increment" }))
@@ -130,13 +130,11 @@ describe("createContext", () => {
       createContext(countReducer)
 
     const Component = () => {
-      const [state, dispatch] = usePresent()
+      const [, dispatch] = usePresent()
       const [undo, redo] = useUndoRedo()
 
       return (
-        <div>
-          {state}
-
+        <>
           <button onClick={() => dispatch(increment())}>Increment</button>
 
           <button disabled={!undo.isPossible} onClick={() => undo()}>
@@ -145,7 +143,7 @@ describe("createContext", () => {
           <button disabled={!redo.isPossible} onClick={() => redo()}>
             Redo
           </button>
-        </div>
+        </>
       )
     }
 
