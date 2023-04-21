@@ -28,6 +28,8 @@ type UndoRedoContext<Present, Actions> = [
 type UndoRedoProviderProps<Present> = {
   children: ReactNode
   initialState: Present
+  past?: Present[]
+  future?: Present[]
 }
 
 type Undo = { (): void; isPossible: boolean }
@@ -56,11 +58,13 @@ export function createContext<Present, Actions extends {}>(
   function UndoRedoProvider({
     children,
     initialState,
+    past = [],
+    future = [],
   }: UndoRedoProviderProps<Present>) {
     const initialUndoRedoState = {
-      past: [],
+      past,
       present: initialState,
-      future: [],
+      future,
     }
 
     const [state, dispatch] = useReducer<

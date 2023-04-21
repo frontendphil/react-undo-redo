@@ -1,6 +1,7 @@
 import React from "react"
 
-import { fireEvent, render } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
 
 import { createContext } from "./createContext"
 import { countReducer, increment } from "./fixtures"
@@ -14,16 +15,16 @@ describe("createContext", () => {
       return <div>{state}</div>
     }
 
-    const { queryByText } = render(
+    render(
       <UndoRedoProvider initialState={0}>
         <Component />
       </UndoRedoProvider>
     )
 
-    expect(queryByText("0")).toBeInTheDocument()
+    expect(screen.queryByText("0")).toBeInTheDocument()
   })
 
-  it("should be possible to undo an update.", () => {
+  it("should be possible to undo an update.", async () => {
     const { UndoRedoProvider, usePresent, useUndoRedo } =
       createContext(countReducer)
 
@@ -42,22 +43,22 @@ describe("createContext", () => {
       )
     }
 
-    const { queryByText, getByText } = render(
+    render(
       <UndoRedoProvider initialState={0}>
         <Component />
       </UndoRedoProvider>
     )
 
-    fireEvent.click(getByText("Increment"))
+    await userEvent.click(screen.getByRole("button", { name: "Increment" }))
 
-    expect(queryByText("1")).toBeInTheDocument()
+    expect(screen.queryByText("1")).toBeInTheDocument()
 
-    fireEvent.click(getByText("Undo"))
+    await userEvent.click(screen.getByRole("button", { name: "Undo" }))
 
-    expect(queryByText("0")).toBeInTheDocument()
+    expect(screen.queryByText("0")).toBeInTheDocument()
   })
 
-  it("should be possible to redo an update.", () => {
+  it("should be possible to redo an update.", async () => {
     const { UndoRedoProvider, usePresent, useUndoRedo } =
       createContext(countReducer)
 
@@ -77,20 +78,20 @@ describe("createContext", () => {
       )
     }
 
-    const { queryByText, getByText } = render(
+    render(
       <UndoRedoProvider initialState={0}>
         <Component />
       </UndoRedoProvider>
     )
 
-    fireEvent.click(getByText("Increment"))
-    fireEvent.click(getByText("Undo"))
-    fireEvent.click(getByText("Redo"))
+    await userEvent.click(screen.getByRole("button", { name: "Increment" }))
+    await userEvent.click(screen.getByRole("button", { name: "Undo" }))
+    await userEvent.click(screen.getByRole("button", { name: "Redo" }))
 
-    expect(queryByText("1")).toBeInTheDocument()
+    expect(screen.queryByText("1")).toBeInTheDocument()
   })
 
-  it("should be possible to access information whether undo is possible.", () => {
+  it("should be possible to access information whether undo is possible.", async () => {
     const { UndoRedoProvider, usePresent, useUndoRedo } =
       createContext(countReducer)
 
@@ -111,20 +112,20 @@ describe("createContext", () => {
       )
     }
 
-    const { getByText } = render(
+    render(
       <UndoRedoProvider initialState={0}>
         <Component />
       </UndoRedoProvider>
     )
 
-    expect(getByText("Undo")).toBeDisabled()
+    expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled()
 
-    fireEvent.click(getByText("Increment"))
+    await userEvent.click(screen.getByRole("button", { name: "Increment" }))
 
-    expect(getByText("Undo")).not.toBeDisabled()
+    expect(screen.getByRole("button", { name: "Undo" })).not.toBeDisabled()
   })
 
-  it("should be possible to access information whether redo is possible.", () => {
+  it("should be possible to access information whether redo is possible.", async () => {
     const { UndoRedoProvider, usePresent, useUndoRedo } =
       createContext(countReducer)
 
@@ -148,18 +149,18 @@ describe("createContext", () => {
       )
     }
 
-    const { getByText } = render(
+    render(
       <UndoRedoProvider initialState={0}>
         <Component />
       </UndoRedoProvider>
     )
 
-    fireEvent.click(getByText("Increment"))
+    await userEvent.click(screen.getByRole("button", { name: "Increment" }))
 
-    expect(getByText("Redo")).toBeDisabled()
+    expect(screen.getByRole("button", { name: "Redo" })).toBeDisabled()
 
-    fireEvent.click(getByText("Undo"))
+    await userEvent.click(screen.getByRole("button", { name: "Undo" }))
 
-    expect(getByText("Redo")).not.toBeDisabled()
+    expect(screen.getByRole("button", { name: "Redo" })).not.toBeDisabled()
   })
 })
