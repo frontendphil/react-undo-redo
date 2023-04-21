@@ -86,33 +86,33 @@ export function createContext<Present, Actions extends {}>(
   }
 
   function usePresent(): [state: Present, dispatch: Dispatch<Actions>] {
-    const [state, dispatch] = useContext(Context)
+    const [{ present }, dispatch] = useContext(Context)
 
-    return [state.present(), dispatch]
+    return [present(), dispatch]
   }
 
   function usePast(): Present[] {
-    const [state] = useContext(Context)
+    const [{ past }] = useContext(Context)
 
-    return state.past()
+    return past()
   }
 
   function useFuture(): Present[] {
-    const [state] = useContext(Context)
+    const [{ future }] = useContext(Context)
 
-    return state.future()
+    return future()
   }
 
   function useUndoRedo(): [undo: Undo, redo: Redo] {
-    const [state, dispatch] = useContext(Context)
+    const [{ past, future }, dispatch] = useContext(Context)
 
     const undo = useCallback(() => dispatch(undoAction()), [dispatch]) as Undo
 
-    undo.isPossible = state.past().length > 0
+    undo.isPossible = past().length > 0
 
     const redo = useCallback(() => dispatch(redoAction()), [dispatch]) as Redo
 
-    redo.isPossible = state.future().length > 0
+    redo.isPossible = future().length > 0
 
     return [undo, redo]
   }
