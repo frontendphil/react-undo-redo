@@ -27,7 +27,8 @@ The `reducer` you pass does not need any knowledge about this feature.
 ```js
 import { createUndoRedo } from "react-undo-redo"
 
-const { UndoRedoProvider, usePresent, useUndoRedo } = createUndoRedo(reducer)
+const { UndoRedoProvider, usePast, usePresent, useFuture, useUndoRedo } =
+  createUndoRedo(reducer)
 ```
 
 ### `UndoRedoProvider`
@@ -35,6 +36,8 @@ const { UndoRedoProvider, usePresent, useUndoRedo } = createUndoRedo(reducer)
 | Prop           | Required | Description                                                                                               |
 | -------------- | -------- | --------------------------------------------------------------------------------------------------------- |
 | `initialState` | ✔️       | The initial state that your reducer needs. This does **not** need any notion of past, present, or future. |
+| `past`         |          | If you like to restore a prior session you can pass an earlier version of past states here.               |
+| `future`       |          | If you like to restore a prior session you can pass an earlier version of future states here.             |
 
 ```js
 function Component() {
@@ -91,3 +94,13 @@ function Component() {
   )
 }
 ```
+
+### `usePast` => `[...state]`
+
+Returns all current past states (i.e. state snapshots when actions are dispatched).
+You probably don't need to use this.
+
+### `useFuture` => `[...state]`
+
+Returns all current future states (i.e. states that have been undone).
+You probably don't need to use this.
