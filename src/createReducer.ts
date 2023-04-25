@@ -1,7 +1,7 @@
 export type UndoRedoState<Present> = {
-  past: Present[]
-  present: Present
-  future: Present[]
+  past: () => Present[]
+  present: () => Present
+  future: () => Present[]
 }
 
 export type PresentReducer<Present, Actions> = (
@@ -38,30 +38,35 @@ export function createReducer<Present, Actions extends {}>(
   ): UndoRedoState<Present> {
     if ("type" in action) {
       if (action.type === UndoRedoActionTypes.UNDO) {
-        const [present, ...past] = state.past
+        const [present, ...past] = state.past()
+        const future = [state.present(), ...state.future()]
 
         return {
-          past,
-          present,
-          future: [state.present, ...state.future],
+          past: () => past,
+          present: () => present,
+          future: () => future,
         }
       }
 
       if (action.type === UndoRedoActionTypes.REDO) {
-        const [present, ...future] = state.future
+        const past = [state.present(), ...state.past()]
+        const [present, ...future] = state.future()
 
         return {
-          past: [state.present, ...state.past],
-          present,
-          future,
+          past: () => past,
+          present: () => present,
+          future: () => future,
         }
       }
     }
 
+    const past = [state.present(), ...state.past()]
+    const present = presentReducer(state.present(), action)
+
     return {
-      past: [state.present, ...state.past],
-      present: presentReducer(state.present, action),
-      future: [],
+      past: () => past,
+      present: () => present,
+      future: () => [],
     }
   }
 }
