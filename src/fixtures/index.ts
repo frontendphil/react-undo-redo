@@ -1,1 +1,1 @@
-export { countReducer, increment } from "./countReducer"
+export { countReducer, CountActions, CountActionTypes, increment } from "./countReducer"

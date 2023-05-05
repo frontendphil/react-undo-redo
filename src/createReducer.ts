@@ -9,6 +9,10 @@ export type PresentReducer<Present, Actions> = (
   action: Actions
 ) => Present
 
+export type UndoRedoOptions<Actions> = {
+  track?: (action: Actions) => boolean
+}
+
 export type UndoRedoReducer<Present, Actions> = (
   state: UndoRedoState<Present>,
   action: Actions
@@ -29,8 +33,11 @@ type RedoAction = {
 
 export type UndoRedoActions<Base> = Base | UndoAction | RedoAction
 
+const trackAll = () => true
+
 export function createReducer<Present, Actions extends {}>(
-  presentReducer: PresentReducer<Present, Actions>
+  presentReducer: PresentReducer<Present, Actions>,
+  options: UndoRedoOptions<Actions> = {}
 ): UndoRedoReducer<Present, UndoRedoActions<Actions>> {
   return function reducer(
     state: UndoRedoState<Present>,
@@ -57,6 +64,15 @@ export function createReducer<Present, Actions extends {}>(
           present: () => present,
           future: () => future,
         }
+      }
+    }
+
+    const isTrackableAction = typeof options?.track === 'function' ? options.track(action) : trackAll()
+    if (!isTrackableAction) {
+      return {
+        past: () => state.past(),
+        present: () => presentReducer(state.present(), action),
+        future: () => state.future(),
       }
     }
 
