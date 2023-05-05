@@ -21,7 +21,7 @@ npm install --save react-undo-redo
 ## Usage
 
 In order to create the provider and hooks to manage undo and redo you call `createUndoRedo` and pass the `reducer` you'd like to enhance.
-This methods returns a provider component and hooks to work with your state.
+This method returns a provider component and hooks to work with your state.
 The `reducer` you pass does not need any knowledge about this feature.
 
 ```js
@@ -30,6 +30,18 @@ import { createUndoRedo } from "react-undo-redo"
 const { UndoRedoProvider, usePast, usePresent, useFuture, useUndoRedo } =
   createUndoRedo(reducer)
 ```
+
+`createUndoRedo` also accepts an options object as a second parameter. Currently available options:
+
+- `track` - function with signature `(action) => boolean`. It is invoked on every dispatch and defines whether the new state is avaiable for undo/redo. If function returns `false`, the state won't affect the change history. It is useful in situations, when the change is not reflected in the UI or the user cannot control over.
+
+```js
+import { createUndoRedo } from "react-undo-redo"
+
+const { UndoRedoProvider, usePast, usePresent, useFuture, useUndoRedo } =
+  createUndoRedo(reducer, {track: (action) => action.type !== 'GET_NEW_TODOS'})
+```
+
 
 ### `UndoRedoProvider`
 
