@@ -37,7 +37,7 @@ const trackAll = () => true
 
 export function createReducer<Present, Actions extends {}>(
   presentReducer: PresentReducer<Present, Actions>,
-  options: UndoRedoOptions<Actions> = {}
+  { track = trackAll }: UndoRedoOptions<Actions> = {}
 ): UndoRedoReducer<Present, UndoRedoActions<Actions>> {
   return function reducer(
     state: UndoRedoState<Present>,
@@ -67,7 +67,7 @@ export function createReducer<Present, Actions extends {}>(
       }
     }
 
-    const isTrackableAction = options?.track?.(action) ?? trackAll()
+    const isTrackableAction = track(action)
     if (!isTrackableAction) {
       return {
         past: () => state.past(),
