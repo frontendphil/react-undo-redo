@@ -4,7 +4,7 @@ import { render, screen, renderHook } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 
 import { createContext } from "./createContext"
-import { countReducer, increment } from "./fixtures"
+import { countReducer, CountActionTypes, increment } from "./fixtures"
 
 describe("createContext", () => {
   it("should provide access to the present state.", () => {
@@ -218,5 +218,59 @@ describe("createContext", () => {
     await userEvent.click(screen.getByRole("button", { name: "Undo" }))
 
     expect(result.current).toEqual([1])
+  })
+
+  it("should be possible to not track an action", async () => {
+    let actionCounter = 0
+    const { UndoRedoProvider, usePresent, usePast } = createContext(
+      countReducer,
+      {
+        track: (action) => {
+          if (action.type === CountActionTypes.INCREMENT) {
+            actionCounter++
+            if (actionCounter % 2 === 0) {
+              return false
+            }
+          }
+
+          return true
+        },
+      }
+    )
+
+    const Component = () => {
+      const [count, dispatch] = usePresent()
+
+      return (
+        <>
+          <h1>{count}</h1>
+          <button onClick={() => dispatch(increment())}>Increment</button>
+        </>
+      )
+    }
+
+    const { result } = renderHook(() => usePast(), {
+      wrapper: ({ children }) => (
+        <UndoRedoProvider initialState={0}>
+          {children}
+
+          <Component />
+        </UndoRedoProvider>
+      ),
+    })
+
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("0")
+
+    await userEvent.click(screen.getByRole("button", { name: "Increment" }))
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("1")
+    expect(result.current).toEqual([0])
+
+    await userEvent.click(screen.getByRole("button", { name: "Increment" }))
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("2")
+    expect(result.current).toEqual([0])
+
+    await userEvent.click(screen.getByRole("button", { name: "Increment" }))
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("3")
+    expect(result.current).toEqual([2, 0])
   })
 })

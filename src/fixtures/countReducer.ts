@@ -1,6 +1,6 @@
 import invariant from "tiny-invariant"
 
-enum CountActionTypes {
+export enum CountActionTypes {
   INCREMENT = "@@count/increment",
   DECREMENT = "@@count/decrement",
 }
@@ -13,7 +13,7 @@ type DecrementAction = {
   type: CountActionTypes.DECREMENT
 }
 
-type CountActions = IncrementAction | DecrementAction
+export type CountActions = IncrementAction | DecrementAction
 
 export const countReducer = (state: number, action: CountActions): number => {
   invariant(state != null, "Count reducer needs an initial state")

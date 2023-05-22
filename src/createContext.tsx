@@ -10,6 +10,7 @@ import React, {
 import {
   PresentReducer,
   UndoRedoActions,
+  UndoRedoOptions,
   UndoRedoReducer,
   UndoRedoState,
   createReducer,
@@ -35,7 +36,8 @@ type Undo = { (): void; isPossible: boolean }
 type Redo = { (): void; isPossible: boolean }
 
 export function createContext<Present, Actions extends {}>(
-  reducer: PresentReducer<Present, Actions>
+  reducer: PresentReducer<Present, Actions>,
+  options?: UndoRedoOptions<Actions>
 ): {
   UndoRedoProvider: ComponentType<UndoRedoProviderProps<Present>>
   usePresent: () => [Present, Dispatch<Actions>]
@@ -62,7 +64,7 @@ export function createContext<Present, Actions extends {}>(
     },
   ])
 
-  const undoRedoReducer = createReducer(reducer)
+  const undoRedoReducer = createReducer(reducer, options)
 
   function UndoRedoProvider({
     children,
