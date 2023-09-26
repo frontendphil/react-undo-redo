@@ -1,5 +1,5 @@
 import React from "react"
-import { render } from "react-dom"
+import { createRoot } from "react-dom/client"
 import { createUndoRedo } from "react-undo-redo"
 import { countReducer, decrement, increment } from "./test"
 
@@ -55,4 +55,10 @@ function Controls() {
   )
 }
 
-render(<App />, document.getElementById("demo"))
+const container = document.getElementById("demo")
+
+if (container) {
+  const root = createRoot(container)
+
+  root.render(<App />)
+}
