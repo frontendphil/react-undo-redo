@@ -11,7 +11,7 @@
     "clean": "rimraf lib",
     "prebuild": "yarn clean",
     "build": "tsc --project tsconfig.json",
-    "prepublishOnly": "yarn build && yarn test",
+    "prepublishOnly": "yarn build && yarn test --run",
     "test": "vitest",
     "format": "prettier --write .",
     "prepare": "husky install"
