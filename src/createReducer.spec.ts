@@ -4,6 +4,7 @@ import {
   CountActions,
   countReducer,
   increment,
+  noop,
 } from "./fixtures"
 
 describe("create reducer", () => {
@@ -62,12 +63,25 @@ describe("create reducer", () => {
 
       const untrackedState = reducer(
         { past: () => [0], present: () => 1, future: () => [2] },
-        increment()
+        increment(),
       )
 
       expect(untrackedState.past()).toEqual([0])
       expect(untrackedState.present()).toEqual(2)
       expect(untrackedState.future()).toEqual([2])
+    })
+
+    it("does not change past, present, and future when the state did not update", () => {
+      const reducer = createReducer(countReducer)
+
+      const updatedState = reducer(
+        { past: () => [0], present: () => 1, future: () => [2] },
+        noop(),
+      )
+
+      expect(updatedState.past()).toEqual([0])
+      expect(updatedState.present()).toEqual(1)
+      expect(updatedState.future()).toEqual([2])
     })
   })
 })
