@@ -11,5 +11,12 @@
     "forceConsistentCasingInFileNames": true,
     "declaration": true
   },
-  "exclude": ["*/test", "demo", "**/*.spec.ts", "**/*.spec.tsx"]
+  "exclude": [
+    "*/test",
+    "demo",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "./vite.config.ts",
+    "./setupTests.ts"
+  ]
 }
