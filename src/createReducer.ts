@@ -6,7 +6,7 @@ export type UndoRedoState<Present> = {
 
 export type PresentReducer<Present, Actions> = (
   state: Present,
-  action: Actions
+  action: Actions,
 ) => Present
 
 export type UndoRedoOptions<Actions> = {
@@ -15,7 +15,7 @@ export type UndoRedoOptions<Actions> = {
 
 export type UndoRedoReducer<Present, Actions> = (
   state: UndoRedoState<Present>,
-  action: Actions
+  action: Actions,
 ) => UndoRedoState<Present>
 
 const enum UndoRedoActionTypes {
@@ -37,11 +37,11 @@ const trackAll = () => true
 
 export function createReducer<Present, Actions extends {}>(
   presentReducer: PresentReducer<Present, Actions>,
-  { track = trackAll }: UndoRedoOptions<Actions> = {}
+  { track = trackAll }: UndoRedoOptions<Actions> = {},
 ): UndoRedoReducer<Present, UndoRedoActions<Actions>> {
   return function reducer(
     state: UndoRedoState<Present>,
-    action: UndoRedoActions<Actions>
+    action: UndoRedoActions<Actions>,
   ): UndoRedoState<Present> {
     if ("type" in action) {
       if (action.type === UndoRedoActionTypes.UNDO) {
@@ -68,6 +68,7 @@ export function createReducer<Present, Actions extends {}>(
     }
 
     const isTrackableAction = track(action)
+
     if (!isTrackableAction) {
       return {
         past: () => state.past(),
@@ -76,12 +77,22 @@ export function createReducer<Present, Actions extends {}>(
       }
     }
 
-    const past = [state.present(), ...state.past()]
-    const present = presentReducer(state.present(), action)
+    const present = state.present()
+    const nextPresent = presentReducer(state.present(), action)
+
+    if (present === nextPresent) {
+      return {
+        past: () => state.past(),
+        present: () => present,
+        future: () => state.future(),
+      }
+    }
+
+    const past = [present, ...state.past()]
 
     return {
       past: () => past,
-      present: () => present,
+      present: () => nextPresent,
       future: () => [],
     }
   }
