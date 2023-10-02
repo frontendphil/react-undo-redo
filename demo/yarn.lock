@@ -224,10 +224,10 @@ react-dom@18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react-undo-redo@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/react-undo-redo/-/react-undo-redo-2.2.0.tgz#a5e265cb88f83e2d17c340f348cb6002902f64b1"
-  integrity sha512-Hic4aGYWLPaxxaeApDddo/LXw7eMrhnVZDwi80LI4ZuWANa+exT/0Pej+9HXYUtdIBdeyo497jMk+k/ftTvAgw==
+react-undo-redo@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-undo-redo/-/react-undo-redo-3.0.0.tgz#3aa744012df6c19d27eb0742590ed4fcb4a722a8"
+  integrity sha512-WTdifHu29202YpDT//ri9NJUiL0pvfSd7vww3hlyT/caUO71EjtDu5i4lBjS67+zm1wgNGJ+y3BOUaatw7THhA==
   dependencies:
     tiny-invariant "^1.1.0"
 
