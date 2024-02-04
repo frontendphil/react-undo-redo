@@ -26,7 +26,7 @@
     "@types/testing-library__jest-dom": "5.14.9",
     "husky": "9.0.10",
     "jsdom": "^24.0.0",
-    "prettier": "3.2.4",
+    "prettier": "3.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "rimraf": "5.0.5",
