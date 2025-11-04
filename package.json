@@ -31,7 +31,7 @@
     "react-dom": "18.3.1",
     "rimraf": "6.1.0",
     "typescript": "5.9.3",
-    "vitest": "4.0.6"
+    "vitest": "4.0.7"
   },
   "prettier": {
     "semi": false
