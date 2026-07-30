@@ -19,6 +19,6 @@
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
     "typescript": "7.0.2",
-    "vite": "8.1.5"
+    "vite": "8.2.0"
   }
 }
