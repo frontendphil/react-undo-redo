@@ -22,7 +22,7 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^30.0.0",
     "@types/react": "19.2.18",
-    "@types/react-dom": "19.2.4",
+    "@types/react-dom": "19.2.5",
     "@types/testing-library__jest-dom": "6.0.0",
     "husky": "9.1.7",
     "jsdom": "^30.0.0",
