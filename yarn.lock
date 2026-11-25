@@ -342,20 +342,20 @@
   resolved "https://registry.yarnpkg.com/@typescript/typescript-win32-x64/-/typescript-win32-x64-7.0.2.tgz#cf3b7b0d6ce5635daca4c8e01c189cdcde47ec3c"
   integrity sha512-0BQ3HkAHHlKLSp1qRvf3SUhGpGsDuhB/jgFw75guyqbxJqEaS0Cw/VFO8i2nHglJUzQCRtMMR/IBAKE3ETMC4g==
 
-"@vitest/mocker@5.1.1":
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/@vitest/mocker/-/mocker-5.1.1.tgz#47b7815458abceb17e3b12218a7868376e02db56"
-  integrity sha512-b2OgTB4+3ImWIVafXKazJXwLKwQxUNnix6b3xUvUTMh7RyXlrtzoxfZr8aEz9zkHOMAS4K5lu3TvFWoiVeVTQg==
+"@vitest/mocker@5.1.2":
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/@vitest/mocker/-/mocker-5.1.2.tgz#64291cafcc659f3058d0ddbcf8f45837bc8e9c1a"
+  integrity sha512-UGc97wUIy0Ji2+9GxzHEJiOhiwkaukgE7VYcUNnjpX3sWnwQ8XogmNXX4WyOukxYgKb8Nh2XFa7KId0ZjpmVhQ==
   dependencies:
     "@jridgewell/trace-mapping" "0.3.31"
-    "@vitest/spy" "5.1.1"
+    "@vitest/spy" "5.1.2"
     estree-walker "^3.0.3"
     magic-string "^1.4.5"
 
-"@vitest/spy@5.1.1":
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/@vitest/spy/-/spy-5.1.1.tgz#9bdbcaf0b0d60486a10a03c3ba5a752ec80b3ca9"
-  integrity sha512-6K8C6alQG1/Yc8/ZI22iJS7JEsxPdVzqtqDq+/xM4Z0mGVykemMVjLhqMy/q6/IHYG3kKD8hKSwRen/ZdyI9vQ==
+"@vitest/spy@5.1.2":
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/@vitest/spy/-/spy-5.1.2.tgz#8b072c4c9981e180d67ea19edb234cc535362384"
+  integrity sha512-PQl0/3+p9GaY71+MHywN6oyHfLhVDD5kcbm7oNRldA2F0ExMU3S8RQdnpteJ9gFAdK5P6KCgE6LqCpUgy57KzA==
 
 ansi-styles@^4.1.0:
   version "4.3.0"
@@ -1001,13 +1001,13 @@ undici@^8.12.3:
   resolved "https://registry.yarnpkg.com/undici/-/undici-8.12.4.tgz#0c0cabeafd9a9c3139f9ace62ee9436c0d355c72"
   integrity sha512-8Mx+uNKKER2bA4AdtedkqRbwUCIJFr2nJckXRe5yrDqzePqwLP7VNcctN8/XdmDSbF7mS+jJKIszlL+vbam1VA==
 
-vitest@5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/vitest/-/vitest-5.1.1.tgz#6e823eba09e832ccdf85c00b9702e6eef9dab370"
-  integrity sha512-trVmzUFOSraCZcI3uZIMD5FqBh4atFkC/XuJP/IU7qtyQay0FCs3Ia+0QiQ2JJwGyWG/xrcBoJNel2+O7kEZ0g==
+vitest@5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/vitest/-/vitest-5.1.2.tgz#6c278dd79b716577cbf5a2de353e781712141fae"
+  integrity sha512-VIa2wXV208WraXUbzH+dQUrGcFpPuaiRA8HlhXS8R6/sy9cynw6OMqGj8fmAlH1hot7huTCtWUE14+FdXU3eLw==
   dependencies:
     "@types/chai" "^5.2.2"
-    "@vitest/mocker" "5.1.1"
+    "@vitest/mocker" "5.1.2"
     chai "^6.3.0"
     es-module-lexer "^2.3.2"
     expect-type "^1.4.0"
